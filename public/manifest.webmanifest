@@ -1,14 +1,14 @@
 {
   "name": "MoneyPool",
   "short_name": "MoneyPool",
-  "start_url": "/",
-  "scope": "/",
+  "start_url": "./",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#f5f7f3",
   "theme_color": "#103c32",
   "icons": [
     {
-      "src": "/icon.svg",
+      "src": "./icon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any"

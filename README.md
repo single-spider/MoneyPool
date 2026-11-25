@@ -30,3 +30,6 @@ The site has a responsive layout and web manifest; production build precaches th
 
 ## Full documentation
 See [documentation index](docs/README.md), [changelog](CHANGELOG.md), [acceptance checklist](docs/acceptance.md) and [maintenance policy](docs/maintenance.md).
+
+## GitHub Pages demo
+See [GitHub Pages guide](docs/github-pages.md). The demo build is isolated from live Supabase credentials. The normal root build remains compatible with Cloudflare Pages.

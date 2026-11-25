@@ -1,6 +1,6 @@
 import {test,expect} from '@playwright/test';
 test('settlement only affects balance after simulated recipient confirms',async({page})=>{
- await page.goto('/');
+ await page.goto('./');
  await expect(page.locator('.notice')).toContainText('Demo workspace');
  const riya=page.locator('.item').filter({hasText:'Riya'});
  await expect(riya).toContainText('500.00');
@@ -25,7 +25,7 @@ test('settlement only affects balance after simulated recipient confirms',async(
  await expect(riya).toContainText('300.00');
 });
 test('add and reverse expense without erasing history',async({page})=>{
- await page.goto('/');
+ await page.goto('./');
  await page.getByRole('button',{name:'＋ Add expense'}).click();
  await page.getByLabel('Description').fill('Groceries');
  await page.getByLabel('Amount (₹)').fill('300');

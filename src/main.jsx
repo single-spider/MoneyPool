@@ -77,4 +77,4 @@ return <div className="shell"><aside><div className="brand"><span className="log
 {notice&&<p role="status" className="success-note">{notice}</p>}{error&&<p role="alert" className="error">{error}</p>}</section></div>}</div>;
 }
 createRoot(document.getElementById('root')).render(<App/>);
-if(import.meta.env.PROD&&'serviceWorker' in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('/sw.js').catch(()=>{}));
+if(import.meta.env.PROD&&'serviceWorker' in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register(import.meta.env.BASE_URL+'sw.js').catch(()=>{}));

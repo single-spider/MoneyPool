@@ -1,6 +1,6 @@
 import {test,expect} from '@playwright/test';
 test('split preview, export and persistent theme',async({page})=>{
- await page.goto('/');
+ await page.goto('./');
  await page.getByRole('button',{name:'＋ Add expense'}).click();
  await page.getByLabel('Description').fill('Snacks');
  await page.getByLabel('Amount (₹)').fill('100');
@@ -17,4 +17,4 @@ test('split preview, export and persistent theme',async({page})=>{
  await expect(page.locator('html')).toHaveAttribute('data-theme','dark');
 });
 
-test('dialog supports keyboard dismissal',async({page})=>{await page.goto('/');const add=page.getByRole('button',{name:'＋ Add expense'});await add.click();await expect(page.getByRole('dialog',{name:'Add an expense'})).toBeVisible();await page.keyboard.press('Escape');await expect(page.getByRole('dialog')).toHaveCount(0);await expect(add).toBeFocused();});
+test('dialog supports keyboard dismissal',async({page})=>{await page.goto('./');const add=page.getByRole('button',{name:'＋ Add expense'});await add.click();await expect(page.getByRole('dialog',{name:'Add an expense'})).toBeVisible();await page.keyboard.press('Escape');await expect(page.getByRole('dialog')).toHaveCount(0);await expect(add).toBeFocused();});

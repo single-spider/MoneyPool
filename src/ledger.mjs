@@ -41,3 +41,14 @@ export function upiUri(p) {
 export function demoQrPayload(p) {return "MoneyPool DEMO - NO PAYMENT\n"+JSON.stringify({reference:p.id,recipient:p.recipient_name,amount:(p.amount/100).toFixed(2),currency:"INR"});}
 export function reservedAmount(payments,payer,recipient){return payments.filter(p=>p.payer_id===payer&&p.recipient_id===recipient&&["created","reported"].includes(p.status)).reduce((s,p)=>s+p.amount,0)}
 export function categoryTotals(expenses,me){const totals={};for(const e of expenses){if(e.voided_at)continue;const c=e.category||"Other";totals[c]=(totals[c]||0)+(e.splits.find(s=>s.user_id===me)?.amount||0)}return Object.entries(totals).sort((a,b)=>b[1]-a[1]);}
+
+export function workspaceTotals(groups,me) {
+ const result={owe:0,owed:0,pending:0,groups:0};
+ for(const g of groups){if(!g.members.some(m=>m.id===me))continue;result.groups++;for(const v of Object.values(balances(g.expenses,g.payments,me))){result.owe+=Math.max(0,v);result.owed+=Math.max(0,-v)}result.pending+=g.payments.filter(p=>p.recipient_id===me&&p.status==="reported").length;}
+ return result;
+}
+export function paymentInbox(groups,me){
+ return groups.filter(g=>g.members.some(m=>m.id===me)).flatMap(g=>g.payments.filter(p=>p.recipient_id===me&&p.status==="reported").map(p=>({id:p.id,groupId:g.id,groupName:g.name,payerName:g.members.find(m=>m.id===p.payer_id)?.name||"Member",amount:p.amount,created_at:p.created_at}))).sort((a,b)=>String(b.created_at).localeCompare(String(a.created_at)));
+}
+export function csvCell(value){let s=String(value??"");if(/^[\s]*[=+\-@]|^[\t\r\n]/.test(s))s="'"+s;return '"'+s.replaceAll('"','""')+'"';}
+export function expenseCsv(group,me){const rows=[["Description","Category","Paid by","Date","Total (INR)","Your share (INR)","Status"]];for(const e of group.expenses){rows.push([e.title,e.category||"Other",group.members.find(m=>m.id===e.payer_id)?.name||"Member",e.created_at,(e.amount/100).toFixed(2),((e.splits.find(s=>s.user_id===me)?.amount||0)/100).toFixed(2),e.voided_at?"Reversed":"Active"])}return rows.map(r=>r.map(csvCell).join(",")).join("\r\n")+"\r\n";}

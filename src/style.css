@@ -8,3 +8,5 @@
 .success-note{background:#dcefdc;color:#205d36;padding:10px;border-radius:9px;font-size:13px}
 
 .download-qr{display:block;color:#388665;font-size:13px;margin:10px 0}
+
+@media(max-width:760px){nav{overflow-x:auto;scrollbar-width:none;justify-content:flex-start}nav button{min-width:48px;flex:1;font-size:9px}.main{padding-bottom:calc(100px + env(safe-area-inset-bottom))}.headright{gap:6px}.headright .avatar{width:34px;height:34px}}.dialog:focus-within{outline:none}

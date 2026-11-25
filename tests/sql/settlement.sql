@@ -23,6 +23,12 @@ select public.mp_rotate_invite(:'gid') as newcode \gset
 select public.mp_create_payment('20000000-0000-0000-0000-000000000001',:'gid','00000000-0000-0000-0000-000000000002',20000);
 select public.mp_create_payment('20000000-0000-0000-0000-000000000001',:'gid','00000000-0000-0000-0000-000000000002',20000);
 
+do $$ begin
+ begin
+ perform public.mp_create_payment('20000000-0000-0000-0000-000000000001',current_setting('test.gid')::uuid,'00000000-0000-0000-0000-000000000002',21000);
+ raise exception 'Changed request reused identifier';
+ exception when others then if sqlerrm<>'Request identifier already used' then raise; end if; end;
+end $$;
 select public.mp_payment_action('20000000-0000-0000-0000-000000000001','report','TESTREF123');
 do $$
 begin
@@ -73,6 +79,12 @@ begin
  exception when others then
   if sqlerrm <> 'Only the payer can reverse this expense' then raise; end if;
  end;
+end $$;
+select public.mp_join_group(:'newcode');
+do $$ begin
+ if (public.mp_snapshot()->'groups'->0->'payments'->0->>'amount')::bigint <>20000 then raise exception 'Member cannot see balance data';end if;
+ if (public.mp_snapshot()->'groups'->0->'payments'->0) ? 'reference' then raise exception 'Third party sees private reference';end if;
+ if (public.mp_snapshot()->'groups'->0->'payments'->0) ? 'events' then raise exception 'Third party sees private audit events';end if;
 end $$;
 select set_config('request.jwt.claim.sub','00000000-0000-0000-0000-000000000002',true);
 select public.mp_payment_action('20000000-0000-0000-0000-000000000001','confirm');

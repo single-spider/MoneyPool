@@ -16,3 +16,5 @@ test('split preview, export and persistent theme',async({page})=>{
  await page.reload();
  await expect(page.locator('html')).toHaveAttribute('data-theme','dark');
 });
+
+test('dialog supports keyboard dismissal',async({page})=>{await page.goto('/');const add=page.getByRole('button',{name:'＋ Add expense'});await add.click();await expect(page.getByRole('dialog',{name:'Add an expense'})).toBeVisible();await page.keyboard.press('Escape');await expect(page.getByRole('dialog')).toHaveCount(0);await expect(add).toBeFocused();});

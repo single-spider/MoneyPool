@@ -16,9 +16,13 @@ do $ begin
  begin perform public.mp_rotate_invite(current_setting('test.gid')::uuid);raise exception 'Non-owner rotated invitation';exception when others then if sqlerrm<>'Only the group owner can rotate invitations' then raise;end if;end;
 end $;
 select public.mp_write_expense('10000000-0000-0000-0000-000000000001',:'gid','Dinner',100000,'[{"user_id":"00000000-0000-0000-0000-000000000001","amount":50000},{"user_id":"00000000-0000-0000-0000-000000000002","amount":50000}]','Food',null);
+select public.mp_write_expense('10000000-0000-0000-0000-000000000001',:'gid','Dinner',100000,'[{"user_id":"00000000-0000-0000-0000-000000000001","amount":50000},{"user_id":"00000000-0000-0000-0000-000000000002","amount":50000}]','Food',null);
+
 select set_config('request.jwt.claim.sub','00000000-0000-0000-0000-000000000001',true);
 select public.mp_rotate_invite(:'gid') as newcode \gset
 select public.mp_create_payment('20000000-0000-0000-0000-000000000001',:'gid','00000000-0000-0000-0000-000000000002',20000);
+select public.mp_create_payment('20000000-0000-0000-0000-000000000001',:'gid','00000000-0000-0000-0000-000000000002',20000);
+
 select public.mp_payment_action('20000000-0000-0000-0000-000000000001','report','TESTREF123');
 do $$
 begin

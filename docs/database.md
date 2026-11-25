@@ -28,6 +28,9 @@ Replace placeholder IDs with actual member UUIDs. Both shares add to 10000 paise
 ## Accounting
 For A owing B: total active allocations paid by B for A minus reverse allocations, minus confirmed A-to-B payments plus confirmed B-to-A payments. Pending amounts only constrain available payment requests. Sum of each pair's opposite balances is zero. Expense reversal removes allocation effect but retains actual payments; balances may reverse as a consequence.
 ## Concurrency
-Group row locks serialize financial mutations. Primary keys prevent duplicate records; unique normalized transaction references cover reported/confirmed payments. Repeated confirmation is rejected. Network retry is not a full idempotency-response protocol yet; refresh before retrying an ambiguous write.
+Group row locks serialize financial mutations. Primary keys prevent duplicate records; unique normalized transaction references cover reported/confirmed payments. Repeated confirmation is rejected. Migration 004 makes repeated expense and payment creation with the same UUID and matching fields a no-op. Changed payloads with a reused ID are refused. The browser retains the same ID while a form is open. Across reloads, refresh history before retrying ambiguous writes.
 ## Access
-Members see group history and payment profiles. Invite codes are bearer secrets; access removal/rotation and data retention tooling are future work. Do not expose raw database tables directly.
+Members see group history and payment profiles. Invite codes are bearer secrets; owners can rotate them. Member removal and data retention tooling are future work. Do not expose raw database tables directly.
+
+## Migration 003
+Owner-only invitations, payment audit events with actor/timestamp/state transition, and private payment reference/UPI snapshot visibility limited to payment participants. Other members receive the amount and status required for balance calculations. Migration backfill records current status only, not fabricated historical events.

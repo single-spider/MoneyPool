@@ -20,3 +20,6 @@ Demo works without credentials; real mode requires Supabase. No QR generation, c
 Initial release has self-paid expense records, group-derived friends, recipient-confirmed repayment, no automatic bank proof. Future: independent friends/invites, multi-payer expenses, simplification, refunds/disputes, notifications, provider integration and native binaries. No paid infrastructure without explicit approval.
 ## Measures
 Track test pass rate, settlement correctness, failed writes, signup completion, database usage and user feedback. Collect only minimal non-sensitive metrics with consent where required.
+
+## Workspace improvements
+Cross-group summary and incoming payment inbox, group status filters, split preview, formula-safe CSV expense exports, persistent theme, owner invitation rotation and payment audit trail.

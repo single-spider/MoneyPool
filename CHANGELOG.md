@@ -7,6 +7,7 @@
 - Node unit tests and desktop/mobile browser tests.
 - Supabase migrations and Cloudflare deployment preparation.
 ## Unreleased
+- Retry-safe financial creation RPCs, stable form request identifiers, and stale QR guard (migration 004).
 - Workspace totals, cross-group confirmation inbox, payment status filters, live split previews, CSV export with formula-injection protection, dark theme.
 - Owner-only invitation codes and rotation, payment event timeline and scoped private payment metadata (migration 003).
 - Extended unit, browser and PostgreSQL regression coverage.

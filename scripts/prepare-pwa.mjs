@@ -1,0 +1,10 @@
+import {readdir,writeFile} from 'node:fs/promises';
+import {createHash} from 'node:crypto';
+const assets=(await readdir('dist/assets')).map(n=>'/assets/'+n);
+const urls=['/','/index.html','/icon.svg','/manifest.webmanifest',...assets];
+const cache='moneypool-'+createHash('sha256').update(JSON.stringify(assets)).digest('hex').slice(0,12);
+await writeFile('dist/sw.js',`const CACHE=${JSON.stringify(cache)},URLS=${JSON.stringify(urls)};
+self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(URLS)).then(()=>self.skipWaiting())));
+self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('moneypool-')&&k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
+self.addEventListener('fetch',e=>{const r=e.request,u=new URL(r.url);if(r.method!=='GET'||u.origin!==self.location.origin)return;if(r.mode==='navigate'){e.respondWith(fetch(r).catch(()=>caches.match('/index.html')));return;}if(URLS.includes(u.pathname))e.respondWith(caches.open(CACHE).then(c=>c.match(u.pathname)).then(hit=>hit||fetch(r)));});
+`);

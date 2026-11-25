@@ -7,6 +7,7 @@ export function parseMoney(value) {
 }
 export function splitAmount(total, members, method, values={}) {
   if (!Number.isSafeInteger(total)||total<=0||!members.length||new Set(members).size!==members.length) throw Error("Invalid expense or participants.");
+  if(!["equal","exact","percentage","shares"].includes(method))throw Error("Invalid split method.");
   if(method==="exact") {
     const rows=members.map(id=>({user_id:id,amount: String(values[id]??"0")==="0"||/^0\.0{1,2}$/.test(String(values[id]))?0:parseMoney(values[id])}));
     if(rows.reduce((s,r)=>s+r.amount,0)!==total) throw Error("Exact amounts must add up to the expense.");
@@ -28,7 +29,7 @@ export function splitAmount(total, members, method, values={}) {
 export function balances(expenses,payments,me) {
   const result={};
   const add=(a,b,amount)=>{if(a===me&&b!==me)result[b]=(result[b]||0)+amount;if(b===me&&a!==me)result[a]=(result[a]||0)-amount};
-  for(const e of expenses)for(const s of e.splits)add(s.user_id,e.payer_id,s.amount);
+  for(const e of expenses)if(!e.voided_at)for(const s of e.splits)add(s.user_id,e.payer_id,s.amount);
   for(const p of payments)if(p.status==="confirmed")add(p.payer_id,p.recipient_id,-p.amount);
   return result;
 }
@@ -36,3 +37,7 @@ export function upiUri(p) {
   if(!/^[a-zA-Z0-9._+-]{2,100}@[a-zA-Z0-9.-]{2,64}$/.test(p.upi))throw Error("Recipient needs a valid UPI ID.");
   return "upi://pay?"+new URLSearchParams({pa:p.upi,pn:p.recipient_name,am:(p.amount/100).toFixed(2),cu:"INR",tn:"MoneyPool settlement",tr:p.id.replaceAll("-","").slice(0,32)}).toString().replaceAll("+","%20");
 }
+
+export function demoQrPayload(p) {return "MoneyPool DEMO - NO PAYMENT\n"+JSON.stringify({reference:p.id,recipient:p.recipient_name,amount:(p.amount/100).toFixed(2),currency:"INR"});}
+export function reservedAmount(payments,payer,recipient){return payments.filter(p=>p.payer_id===payer&&p.recipient_id===recipient&&["created","reported"].includes(p.status)).reduce((s,p)=>s+p.amount,0)}
+export function categoryTotals(expenses,me){const totals={};for(const e of expenses){if(e.voided_at)continue;const c=e.category||"Other";totals[c]=(totals[c]||0)+(e.splits.find(s=>s.user_id===me)?.amount||0)}return Object.entries(totals).sort((a,b)=>b[1]-a[1]);}

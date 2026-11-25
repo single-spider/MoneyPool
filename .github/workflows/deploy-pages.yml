@@ -26,6 +26,10 @@ jobs:
       - run: npm run build
       - run: npx playwright install --with-deps chromium
       - run: npm run test:e2e
+      - uses: actions/upload-artifact@v7
+        with:
+          name: moneypool-pages-demo
+          path: dist
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
@@ -45,3 +49,34 @@ jobs:
       - name: Publish verified demo
         id: deployment
         uses: actions/deploy-pages@v4
+  prepare-branch:
+    # If Actions publishing is unavailable, prepare a static branch for owner selection.
+    if: ${{ always() && needs.build.result == 'success' && needs.deploy.result == 'failure' && github.ref == 'refs/heads/main' }}
+    needs: [build, deploy]
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: moneypool-pages-demo
+          path: ${{ runner.temp }}/moneypool-pages
+      - name: Prepare static branch without overwriting existing branches
+        shell: bash
+        run: |
+          if git ls-remote --exit-code --heads origin gh-pages >/dev/null; then
+            echo "Existing gh-pages branch found; leaving it untouched."
+            exit 0
+          fi
+          test -f "$RUNNER_TEMP/moneypool-pages/index.html"
+          git switch --orphan gh-pages
+          cp -a "$RUNNER_TEMP/moneypool-pages/." .
+          touch .nojekyll
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add --all
+          git commit -m "Publish static MoneyPool demo for branch-based Pages"
+          git push origin HEAD:refs/heads/gh-pages
+          echo "Select gh-pages / (root) in Settings > Pages to publish this demo." >> "$GITHUB_STEP_SUMMARY"

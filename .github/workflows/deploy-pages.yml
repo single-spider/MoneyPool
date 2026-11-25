@@ -27,6 +27,13 @@ jobs:
       - run: npx playwright install --with-deps chromium
       - run: npm run test:e2e
       - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: moneypool-pages-ui-evidence
+          path: test-results/
+          if-no-files-found: ignore
+          retention-days: 7
+      - uses: actions/upload-artifact@v7
         with:
           name: moneypool-pages-demo
           path: dist

@@ -7,6 +7,9 @@
 - Node unit tests and desktop/mobile browser tests.
 - Supabase migrations and Cloudflare deployment preparation.
 ## Unreleased
+- Research-backed design system, restrained ledger layout and five-tab mobile navigation with More.
+- Persistent deep links, expense breakdown, stale-state guards and partial-config fail-closed behavior.
+- Automated accessibility scans, long-content checks and responsive screenshot evidence.
 - Retry-safe financial creation RPCs, stable form request identifiers, and stale QR guard (migration 004).
 - Workspace totals, cross-group confirmation inbox, payment status filters, live split previews, CSV export with formula-injection protection, dark theme.
 - Owner-only invitation codes and rotation, payment event timeline and scoped private payment metadata (migration 003).

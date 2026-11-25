@@ -16,3 +16,5 @@ This handbook is the source of truth for the implementation, quality gates and l
 | [Autonomous maintenance](maintenance.md) | CI, bounded follow-up and escalation |
 | [Mobile](mobile.md) | PWA and Capacitor packaging |
 | [User guide](user-guide.md) | How to use MoneyPool |
+
+Design specification: [DESIGN.md](../DESIGN.md). Production program: [production-plan.md](production-plan.md). Coding-agent instructions: [AGENTS.md](../AGENTS.md).

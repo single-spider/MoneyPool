@@ -87,3 +87,6 @@ footer{font-size:13px;color:var(--muted);display:flex;justify-content:space-betw
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}}
 
 .detail-link{border:0;padding:0;background:none;min-height:44px;text-align:left;justify-content:flex-start;overflow-wrap:anywhere;font-weight:700;color:var(--ink)}.detail-link:hover{background:none;text-decoration:underline}.main:focus{outline:none}.main:focus-visible{outline:2px solid var(--focus);outline-offset:-2px}
+
+/* Long content stress cases: keep widths fluid and wrap titles inside their own columns. */
+.main h2,.sectionhead small,.sidebar-status,.contactgroup strong,.group-net,.detail-link{overflow-wrap:anywhere;min-width:0}.notice .inline{max-width:100%}.notice select{max-width:min(160px,100%)}.toolbar select{min-width:0;max-width:100%}.toolbar .inline{width:100%}.toolbar .inline select{flex:1}.item>strong,.recent-row>strong{flex-shrink:1}.group-net{max-width:100%}.split-preview strong{overflow-wrap:anywhere}.contactgroup strong{max-width:50%}.headright{flex:none}.expense-end .actions{flex-wrap:wrap}.sectionhead>button{max-width:100%}

@@ -27,3 +27,6 @@ The database migration enables RLS, revokes direct client table access, and expo
 
 ## Mobile
 The site has a responsive layout and web manifest; production build precaches the static shell only; financial API responses are never cached. A Capacitor configuration is included. Install matching versions of @capacitor/core, @capacitor/cli and the Android/iOS platform packages, build, then run npx cap add android (or ios) and npx cap sync. Native URL handoff, icons, and app-store review still require device testing.
+
+## Full documentation
+See [documentation index](docs/README.md), [changelog](CHANGELOG.md), [acceptance checklist](docs/acceptance.md) and [maintenance policy](docs/maintenance.md).

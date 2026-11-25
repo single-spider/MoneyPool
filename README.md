@@ -12,7 +12,7 @@ Without configuration the website runs in local demo mode. Demo data is stored i
 
 ## Configure real shared accounts
 1. Create a free Supabase project.
-2. In SQL Editor run the migrations in `supabase/migrations/` in numeric order, once each. Do not run on an unrelated database.
+2. In SQL Editor run all migrations in `supabase/migrations/` in numeric order, once each. Do not run on an unrelated database.
 3. Enable email/password authentication and configure the Site URL and allowed redirect URLs for your deployment. Configure email delivery as needed; default Supabase email limits may constrain signup.
 4. Copy `.env.example` to `.env.local` and enter your project URL and **publishable** key (or legacy anon key). Never use the service role key in a browser or GitHub.
 5. Restart Vite. Create separate accounts, save UPI IDs, create a group, share its private invite code, and join from another account.

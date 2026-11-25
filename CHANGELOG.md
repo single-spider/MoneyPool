@@ -7,4 +7,7 @@
 - Node unit tests and desktop/mobile browser tests.
 - Supabase migrations and Cloudflare deployment preparation.
 ## Unreleased
+- Workspace totals, cross-group confirmation inbox, payment status filters, live split previews, CSV export with formula-injection protection, dark theme.
+- Owner-only invitation codes and rotation, payment event timeline and scoped private payment metadata (migration 003).
+- Extended unit, browser and PostgreSQL regression coverage.
 - Documentation handbook, automated maintenance and expanded quality gates.

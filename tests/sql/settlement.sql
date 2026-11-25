@@ -11,8 +11,13 @@ select set_config('test.code', :'code', true);
 select set_config('request.jwt.claim.sub','00000000-0000-0000-0000-000000000002',true);
 select public.mp_save_profile('Bob','bob@example');
 select public.mp_join_group(:'code');
+do $ begin
+ if public.mp_snapshot()->'groups'->0->>'invite_code' is not null then raise exception 'Non-owner sees invitation code'; end if;
+ begin perform public.mp_rotate_invite(current_setting('test.gid')::uuid);raise exception 'Non-owner rotated invitation';exception when others then if sqlerrm<>'Only the group owner can rotate invitations' then raise;end if;end;
+end $;
 select public.mp_write_expense('10000000-0000-0000-0000-000000000001',:'gid','Dinner',100000,'[{"user_id":"00000000-0000-0000-0000-000000000001","amount":50000},{"user_id":"00000000-0000-0000-0000-000000000002","amount":50000}]','Food',null);
 select set_config('request.jwt.claim.sub','00000000-0000-0000-0000-000000000001',true);
+select public.mp_rotate_invite(:'gid') as newcode \gset
 select public.mp_create_payment('20000000-0000-0000-0000-000000000001',:'gid','00000000-0000-0000-0000-000000000002',20000);
 select public.mp_payment_action('20000000-0000-0000-0000-000000000001','report','TESTREF123');
 do $$
@@ -46,6 +51,9 @@ end $$;
 set role authenticated;
 select set_config('request.jwt.claim.sub','00000000-0000-0000-0000-000000000003',true);
 select public.mp_save_profile('Mallory',null);
+do $ begin
+ begin perform public.mp_join_group(current_setting('test.code')::uuid);raise exception 'Old invitation still works';exception when others then if sqlerrm<>'Invalid invitation' then raise;end if;end;
+end $;
 do $$
 begin
  if jsonb_array_length(public.mp_snapshot()->'groups')<>0 then raise exception 'Unauthorized group visible'; end if;
@@ -75,6 +83,7 @@ end $$;
 reset role;
 do $$ begin
  if public.mp_pair_debt(current_setting('test.gid')::uuid,'00000000-0000-0000-0000-000000000001','00000000-0000-0000-0000-000000000002')<>30000 then raise exception 'Confirmed repayment incorrect'; end if;
+ if (select count(*) from public.mp_payment_events where payment_id='20000000-0000-0000-0000-000000000001')<>3 then raise exception 'Missing or duplicated payment audit events'; end if;
 end $$;
 set role authenticated;
 select set_config('request.jwt.claim.sub','00000000-0000-0000-0000-000000000002',true);

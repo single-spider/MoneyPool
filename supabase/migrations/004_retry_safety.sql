@@ -1,5 +1,5 @@
 begin;
-create or replace function public.mp_write_expense(p_id uuid,p_group uuid,p_title text,p_amount bigint,p_splits jsonb,p_category text,p_replace uuid default null) returns void language plpgsql security definer set search_path='' as $
+create or replace function public.mp_write_expense(p_id uuid,p_group uuid,p_title text,p_amount bigint,p_splits jsonb,p_category text,p_replace uuid default null) returns void language plpgsql security definer set search_path='' as $$
 declare existing public.mp_expenses%rowtype;
 begin
  if not exists(select 1 from public.mp_members where group_id=p_group and user_id=auth.uid()) then raise exception 'Not a member'; end if;

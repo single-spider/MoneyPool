@@ -11,10 +11,10 @@ select set_config('test.code', :'code', true);
 select set_config('request.jwt.claim.sub','00000000-0000-0000-0000-000000000002',true);
 select public.mp_save_profile('Bob','bob@example');
 select public.mp_join_group(:'code');
-do $ begin
+do $$ begin
  if public.mp_snapshot()->'groups'->0->>'invite_code' is not null then raise exception 'Non-owner sees invitation code'; end if;
  begin perform public.mp_rotate_invite(current_setting('test.gid')::uuid);raise exception 'Non-owner rotated invitation';exception when others then if sqlerrm<>'Only the group owner can rotate invitations' then raise;end if;end;
-end $;
+end $$;
 select public.mp_write_expense('10000000-0000-0000-0000-000000000001',:'gid','Dinner',100000,'[{"user_id":"00000000-0000-0000-0000-000000000001","amount":50000},{"user_id":"00000000-0000-0000-0000-000000000002","amount":50000}]','Food',null);
 select public.mp_write_expense('10000000-0000-0000-0000-000000000001',:'gid','Dinner',100000,'[{"user_id":"00000000-0000-0000-0000-000000000001","amount":50000},{"user_id":"00000000-0000-0000-0000-000000000002","amount":50000}]','Food',null);
 
@@ -55,9 +55,9 @@ end $$;
 set role authenticated;
 select set_config('request.jwt.claim.sub','00000000-0000-0000-0000-000000000003',true);
 select public.mp_save_profile('Mallory',null);
-do $ begin
+do $$ begin
  begin perform public.mp_join_group(current_setting('test.code')::uuid);raise exception 'Old invitation still works';exception when others then if sqlerrm<>'Invalid invitation' then raise;end if;end;
-end $;
+end $$;
 do $$
 begin
  if jsonb_array_length(public.mp_snapshot()->'groups')<>0 then raise exception 'Unauthorized group visible'; end if;

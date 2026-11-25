@@ -20,7 +20,7 @@ Current source: main 207e86e. Previous CI/deployment passed. Code is an MVP; no 
 | UX01 | Duplicate global/group balance cards and decorative hero mark | P1 | Distinct scope, one clear primary amount; no nonfunctional decoration |
 | UX02 | Seven tiny mobile nav labels, Unicode symbols, weak touch targets | P1 | 4 tabs + More; all routes accessible, target >=44px |
 | UX03 | Layered stylesheet overrides, inconsistent radius and spacing, dark-theme gaps | P1 | One token-driven stylesheet, light/dark contrast |
-| UX04 | Page state lost on refresh, no browser back | P1 | hash navigation, history tests, base-path compatible |
+| UX04 | Page state lost on refresh, no browser back | P1 | query-based navigation, history tests, base-path compatible |
 | UX05 | No expense details view, busy states and group selection unclear | P1 | detail view, precise action feedback, recovery |
 | UX06 | Empty, long/dense, narrow and large-value states unverified | P1 | browser fixtures 320/390/768/1440, overflow and a11y checks |
 | ENG01 | Main.jsx combines state, auth, domain and all UI | P1 | modular components, provider/repository boundary, typed contracts |
@@ -39,7 +39,7 @@ Preserve all seven screens, all four split methods, categories, expense revision
 3. Improve mobile primary nav with overflow menu; visible active state; mobile touch targets, safe areas, input size.
 4. Confirm all existing flows and both themes via tests. Capture screenshots across representative pages, inspect before claiming visual acceptance.
 ## Iteration B — interaction resilience
-1. Stable deep links/back/forward via hash route; preserve selected group where appropriate.
+1. Stable deep links/back/forward via query parameter (preserves Supabase auth fragments); preserve selected group where appropriate.
 2. Expense detail panel, split preview and explicit review; consistent status label.
 3. Error/loading/empty states, clear stale/last sync message; refresh retry; password recovery flow with hosted auth test deferred.
 4. Fail closed for partial env config, robust storage parsing, no secret exposure; test mobile long text and extreme amounts, keyboard, axe and screenshot artifacts.

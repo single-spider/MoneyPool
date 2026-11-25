@@ -10,14 +10,14 @@ test('settlement only affects balance after simulated recipient confirms',async(
  await expect(page.getByAltText('Non-payable demo QR code')).toBeVisible();
  await page.getByRole('button',{name:'Simulate payment'}).click();
  await page.getByRole('button',{name:'Submit payment claim'}).click();
- await expect(page.getByText('Awaiting confirmation',{exact:true})).toBeVisible();
+ await expect(page.locator('.status.reported')).toBeVisible();
  await page.getByRole('button',{name:'Overview',exact:true}).click();
  await expect(riya).toContainText('500.00');
  await page.getByLabel('View as').selectOption('riya');
  await page.getByRole('button',{name:/Payments/}).click();
  await page.getByRole('button',{name:'Confirm receipt'}).click();
  await page.getByRole('button',{name:'Simulate receipt confirmation'}).click();
- await expect(page.getByText('Recipient confirmed',{exact:true})).toBeVisible();
+ await expect(page.locator('.status.confirmed')).toBeVisible();
  await page.getByLabel('View as').selectOption('me');
  await page.getByRole('button',{name:'Overview',exact:true}).click();
  await expect(riya).toContainText('300.00');

@@ -5,7 +5,7 @@ A shared digital ledger. Calm, precise, compact and human. The primary task is u
 - Ink: #182720; muted #4d6057; page #f5f5ef; surface #fffefa; border #d9ded4.
 - Action green #14573d, hover #10452f; positive #17613e; negative #a52e2b. Pending amber #75520c on #fff0c9. Color is never the sole state cue.
 - Dark mode: canvas #15251f, surface #1e3329, ink #edf2eb, muted #afc2b5, border #456052, action #a9e39a with dark text.
-- Typography: system UI for legibility and no font download; Georgia serif reserved for the large net balance (a ledger reference, not marketing). Tabular figures for all money. Body 15–16px, secondary 13px, page title 28–32px. Avoid tiny all-caps labels and ornamental tracking.
+- Typography: system UI for legibility and no font download; Use the same system family for monetary amounts; review showed the serif rupee fallback made the main balance harder to read. Tabular figures for all money. Body 15–16px, secondary 13px, page title 28–32px. Avoid tiny all-caps labels and ornamental tracking.
 - Spacing scale: 4, 8, 12, 16, 24, 32, 48px. Radii: 6px controls, 12px containers, circle only for avatars. One shadow for modal surfaces.
 - Use consistent inline SVG outline icons at 20px. Do not use decorative symbols, emoji, gradients, glow, meaningless graphic marks or generic marketing copy.
 ## Hierarchy

@@ -7,6 +7,7 @@
 - Node unit tests and desktop/mobile browser tests.
 - Supabase migrations and Cloudflare deployment preparation.
 ## Unreleased
+- Screenshot-driven polish: compact demo strip and group toolbar, remove duplicate single-group totals, improve narrow activity rows and make background inert during modal interactions.
 - Research-backed design system, restrained ledger layout and five-tab mobile navigation with More.
 - Persistent deep links, expense breakdown, stale-state guards and partial-config fail-closed behavior.
 - Automated accessibility scans, long-content checks and responsive screenshot evidence.

@@ -73,3 +73,6 @@ The build now enforces a 200,000-byte gzip budget across all emitted JavaScript 
 
 ## Ledger invariant coverage — 2026-11-26
 Added deterministic property-style regression cases for equal and weighted allocation across 1–12 participants and seven totals, including the maximum supported input. Checks cover conservation, integer/nonnegative shares, deterministic ordering and rounding error below one paise. A separate mixed-ledger test checks pairwise antisymmetry, zero global net, reversal handling, pending reservation semantics and confirmed-only balance changes. This is offline coverage; hosted authorization and concurrency remain separate launch gates.
+
+## Demo storage recovery — 2026-11-26
+Startup now checks the saved demo record structure before rendering or persisting. Missing records still initialize the sample; unreadable or structurally invalid records show a retry screen and block automatic writes, preserving the original browser data. Unit and browser regressions cover malformed data and retry preservation. Manual recovery/export of damaged records remains a future task. Connected mode is unchanged.

@@ -1,0 +1,4 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {readDemo,demoKey} from '../src/demo-storage.mjs';
+const sample={profile:{id:'me',name:'Alex'},groups:[]};
+test('missing storage starts a fresh demo; valid saved records are retained',()=>{assert.deepEqual(readDemo({getItem:()=>null},sample),{data:sample,blocked:false});const saved={...sample,profile:{id:'me',name:'Saved'}};assert.deepEqual(readDemo({getItem:k=>{assert.equal(k,demoKey);return JSON.stringify(saved)}},sample),{data:saved,blocked:false})});
+test('malformed, structurally invalid and inaccessible storage block writes',()=>{for(const raw of ['{','null','{}',JSON.stringify({...sample,groups:[{}]})])assert.equal(readDemo({getItem:()=>raw},sample).blocked,true);assert.equal(readDemo({getItem(){throw Error('denied')}},sample).blocked,true)});

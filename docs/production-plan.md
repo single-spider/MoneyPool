@@ -70,3 +70,6 @@ Audit -> prioritize -> implement a narrow slice -> test -> inspect actual output
 
 ## Performance gate — 2026-11-26
 The build now enforces a 200,000-byte gzip budget across all emitted JavaScript chunks, including lazy chunks. This conservative total also bounds the initial JS payload; it does not measure network latency, runtime responsiveness or field Core Web Vitals. Both root and Pages builds run the gate. Regression tests cover the exact boundary, multiple chunks, CSS exclusion and missing JavaScript.
+
+## Ledger invariant coverage — 2026-11-26
+Added deterministic property-style regression cases for equal and weighted allocation across 1–12 participants and seven totals, including the maximum supported input. Checks cover conservation, integer/nonnegative shares, deterministic ordering and rounding error below one paise. A separate mixed-ledger test checks pairwise antisymmetry, zero global net, reversal handling, pending reservation semantics and confirmed-only balance changes. This is offline coverage; hosted authorization and concurrency remain separate launch gates.

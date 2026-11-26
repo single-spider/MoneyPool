@@ -67,3 +67,6 @@ Preserve all seven screens, all four split methods, categories, expense revision
 - Usability: 5 representative test users, target >=90% task completion without help for add expense, split review, repayment report and recipient confirmation. No false interpretation of pending as settled.
 ## Cycle rules
 Audit -> prioritize -> implement a narrow slice -> test -> inspect actual output -> fix regressions -> document evidence -> next slice. Stop after green gates and no actionable defect or at owner/live/device blocker. Do not confuse continuous changes with improvement. Keep the live demo working and avoid automatically merging dependency updates. No indefinite perfection promise.
+
+## Performance gate — 2026-11-26
+The build now enforces a 200,000-byte gzip budget across all emitted JavaScript chunks, including lazy chunks. This conservative total also bounds the initial JS payload; it does not measure network latency, runtime responsiveness or field Core Web Vitals. Both root and Pages builds run the gate. Regression tests cover the exact boundary, multiple chunks, CSS exclusion and missing JavaScript.
